@@ -1,6 +1,6 @@
 CREATE TABLE asset (
     asset_id SERIAL PRIMARY KEY,
-    asset_class_id VARCHAR(50) UNIQUE NOT NULL,
+    asset_class_id VARCHAR(255) NOT NULL,
     asset_name VARCHAR(255)
 );
 
@@ -20,19 +20,6 @@ CREATE TABLE asset_time(
     days_of_month VARCHAR(255)
 );
 
-INSERT INTO asset (asset_class_id, asset_name)
-VALUES
-('vn30f1m', 'Phái sinh Việt Nam'),
-('vn100f1m', 'Phái sinh Việt Nam'),
-('FPT', 'Cơ sở Việt Nam'),
-('VIC', 'Cơ sở Việt Nam'),
-('BTCUSDT', 'Crypto'),
-('ETHUSDT', 'Crypto'),
-('Nikkei', 'Indices'),
-('SP500', 'Indices'),
-('DowJone', 'Indices'),
-('Kospi', 'Indices');
-
 INSERT INTO asset_time (
     asset_name,
     session_time_start,
@@ -47,7 +34,17 @@ VALUES
 ('Cơ sở Việt Nam', '2026-01-23 09:15:00', '2026-01-23 11:30:00', 'Monday-Sunday'),
 ('Phái sinh Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday-Sunday'),
 ('Cơ sở Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday-Sunday'),
-('Cơ sở Việt Nam', '2026-01-23 14:45:00', '2026-01-23 15:00:00', 'Monday-Sunday');
+('Cơ sở Việt Nam', '2026-01-23 14:45:00', '2026-01-23 15:00:00', 'Monday-Sunday'),
+('Index Việt Nam','2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday-Friday'),
+('Index Việt Nam','2026-01-23 13:00:00', '2026-01-23 14:30:00', 'Monday-Friday'),
+('Tỷ giá Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday-Friday'),
+('Lãi xuất Việt Nam','2026-01-23 16:00:00', '2026-01-23 17:00:00', 'Monday-Sunday'),
+('Weight Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday-Friday'),
+('ETF Việt Nam','2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday-Friday'),
+('ETF Việt Nam','2026-01-23 13:00:00', '2026-01-23 14:30:00', 'Monday-Friday'),
+('Foregin Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday-Friday'),
+('Crypto Metric', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday-Sunday'),
+('Forex', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday-Friday');
 
 INSERT INTO holiday_calendar (
     asset_class_id,
@@ -65,4 +62,113 @@ VALUES
 ('SP500', '2026-02-14', 'Valentine', '2026-12-25'),
 ('DowJone', '2026-12-25', 'Christmas', '2026-12-26'),
 ('Kospi', '2026-02-14', 'Valentine', '2026-12-25'),
-('FPT', '2026-02-03', 'Testing', '2026-02-04');
+('FPT', '2026-02-03', 'Testing', '2026-02-04'),
+('orderbook_vn30f1m', '2026-02-16', 'Lunar New Year Holiday', '2026-02-20'),
+('trade_vn30f1m',     '2026-02-16', 'Lunar New Year Holiday', '2026-02-20'),
+('vn30',              '2026-09-02', 'Vietnam National Day',  '2026-09-02'),
+('vn100',             '2026-09-02', 'Vietnam National Day',  '2026-09-02'),
+('ty_gia',            '2026-01-01', 'New Year Holiday',      '2026-01-01'),
+('lai_suat_qua_dem',  '2026-01-01', 'New Year Holiday',      '2026-01-01'),
+('weight_vn30',       '2026-02-16', 'Lunar New Year Holiday','2026-02-20'),
+('etf',               '2026-04-30', 'Reunification Day',    '2026-04-30'),
+('foreign',           '2026-04-30', 'Reunification Day',    '2026-04-30'),
+('ADAUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('ATOMUSDT', '2026-01-01', 'Global New Year', '2026-01-01'),
+('AVAXUSDT', '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('BCHUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('BNBUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('DOGEUSDT', '2026-07-04', 'US Independence Day', '2026-07-04'),
+('DOTUSDT',  '2026-07-04', 'US Independence Day', '2026-07-04'),
+('ETCUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('ETHUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('FILUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('HBARUSDT', '2026-01-01', 'Global New Year', '2026-01-01'),
+('LINKUSDT', '2026-07-04', 'US Independence Day', '2026-07-04'),
+('LTCUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('SOLUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('TRXUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('UNIUSDT',  '2026-07-04', 'US Independence Day', '2026-07-04'),
+('VETUSDT',  '2026-02-16', 'Lunar New Year', '2026-02-20'),
+('XLMUSDT',  '2026-01-01', 'Global New Year', '2026-01-01'),
+('XMRUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('XRPUSDT',  '2026-12-25', 'Christmas Day',  '2026-12-25'),
+('funding_rate', '2026-01-01', 'System Maintenance Holiday', '2026-01-01'),
+('btc_dominance','2026-01-01', 'System Maintenance Holiday', '2026-01-01'),
+('orderbook',    '2026-12-25', 'Christmas Maintenance',     '2026-12-25'),
+('trade',        '2026-12-25', 'Christmas Maintenance',     '2026-12-25'),
+('market_cap',   '2026-01-01', 'Global New Year',           '2026-01-01'),
+('oxy',        '2026-01-01', 'New Year Holiday', '2026-01-01'),
+('csi_300',    '2026-02-16', 'Chinese New Year','2026-02-20'),
+('vxx',        '2026-07-04', 'US Independence Day', '2026-07-04'),
+('nasdaq',     '2026-07-04', 'US Independence Day', '2026-07-04'),
+('dji',        '2026-07-04', 'US Independence Day', '2026-07-04'),
+('dxy',        '2026-01-01', 'New Year Holiday', '2026-01-01'),
+('usdvnd',     '2026-02-16', 'Lunar New Year', '2026-02-20'),
+('hang_seng',  '2026-02-16', 'Lunar New Year', '2026-02-20'),
+('gold',       '2026-12-25', 'Christmas Day', '2026-12-25');
+
+
+
+INSERT INTO asset (
+    asset_class_id,
+    asset_name
+)
+VALUES
+('vn30f1m', 'Phái sinh Việt Nam'),
+('vn100f1m', 'Phái sinh Việt Nam'),
+('FPT', 'Cơ sở Việt Nam'),
+('VIC', 'Cơ sở Việt Nam'),
+('Nikkei', 'Indices'),
+('SP500', 'Indices'),
+('DowJone', 'Indices'),
+('Kospi', 'Indices'),
+('orderbook_vn30f1m','Phái sinh Việt Nam'),
+('trade_vn30f1m','Phái sinh Việt Nam'),
+('vn30','Index Việt Nam'),
+('vn100','Index Việt Nam'),
+('ty_gia','Tỷ giá Việt Nam'),
+('lai_suat_qua_dem','Lãi xuất Việt Nam'),
+('weight_vn30','Weight Việt Nam'),
+('etf','ETF Việt Nam'),
+('foreign','Foregin Việt Nam'),
+('ADAUSDT','Crypto'),
+('ATOMUSDT', 'Crypto'),
+('AVAXUSDT', 'Crypto'),
+('BCHUSDT', 'Crypto'),
+('BNBUSDT', 'Crypto'),
+('BTCUSDT', 'Crypto'),
+('DOGEUSDT', 'Crypto'),
+('DOTUSDT', 'Crypto'),
+('ETCUSDT', 'Crypto'),
+('ETHUSDT', 'Crypto'),
+('FILUSDT', 'Crypto'),
+('HBARUSDT', 'Crypto'),
+('LINKUSDT', 'Crypto'),
+('LTCUSDT', 'Crypto'),
+('SOLUSDT', 'Crypto'),
+('TRXUSDT', 'Crypto'),
+('UNIUSDT', 'Crypto'),
+('VETUSDT', 'Crypto'),
+('XLMUSDT', 'Crypto'),
+('XMRUSDT', 'Crypto'),
+('XRPUSDT', 'Crypto'),
+('funding_rate', 'Crypto Metric'),
+('btc_dominance', 'Crypto Metric'),
+('orderbook', 'Crypto Metric'),
+('trade', 'Crypto Metric'),
+('market_cap', 'Crypto Metric'),
+('nikkei', 'Indices'),
+('sp500', 'Indices'),
+('kospi', 'Indices'),
+('dow_jones', 'Indices'),
+('oxy', 'Indices'),
+('csi_300', 'Indices'),
+('vxx', 'Indices'),
+('nasdaq', 'Indices'),
+('dji', 'Indices'),
+('dxy', 'Indices'),
+('usdvnd', 'Indices'),
+('hang_seng', 'Indices'),
+('gold','Forex');
+
+

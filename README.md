@@ -1,6 +1,11 @@
-# Check_data
+# Guide
 
 ## Install command
 pip install -r requirements.txt
 
-## Run the query in db.txt to get the db for testing
+## Setup DB for test
+
+1. Cài đặt Postgre rồi mở server
+2. Kết nối với code IDE
+3. Chạy lệnh query trong file db.txt để có db (với VScode thì chạy query qua extension SQLTools)
+

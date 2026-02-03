@@ -1,0 +1,68 @@
+CREATE TABLE asset (
+    asset_id SERIAL PRIMARY KEY,
+    asset_class_id VARCHAR(50) UNIQUE NOT NULL,
+    asset_name VARCHAR(255)
+);
+
+CREATE TABLE holiday_calendar (
+    holiday_id SERIAL PRIMARY KEY,
+    asset_class_id VARCHAR REFERENCES asset(asset_class_id), 
+    holiday_date_start DATE NOT NULL,
+    holiday_des VARCHAR(255),
+    holiday_date_end DATE NOT NULL
+);
+
+CREATE TABLE asset_time(
+    asset_id serial PRIMARY KEY,
+    asset_name VARCHAR(255),
+    session_time_start TIMESTAMP,
+    session_time_end TIMESTAMP,
+    days_of_month VARCHAR(255)
+);
+
+INSERT INTO asset (asset_class_id, asset_name)
+VALUES
+('vn30f1m', 'Phái sinh Việt Nam'),
+('vn100f1m', 'Phái sinh Việt Nam'),
+('FPT', 'Cơ sở Việt Nam'),
+('VIC', 'Cơ sở Việt Nam'),
+('BTCUSDT', 'Crypto'),
+('ETHUSDT', 'Crypto'),
+('Nikkei', 'Indices'),
+('SP500', 'Indices'),
+('DowJone', 'Indices'),
+('Kospi', 'Indices');
+
+INSERT INTO asset_time (
+    asset_name,
+    session_time_start,
+    session_time_end,
+    days_of_month
+)
+VALUES
+('Crypto', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday-Sunday'),
+('Indices', '2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday-Friday'),
+('Indices', '2026-01-23 12:30:00', '2026-01-23 15:00:00', 'Monday-Friday'),
+('Phái sinh Việt Nam', '2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday-Sunday'),
+('Cơ sở Việt Nam', '2026-01-23 09:15:00', '2026-01-23 11:30:00', 'Monday-Sunday'),
+('Phái sinh Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday-Sunday'),
+('Cơ sở Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday-Sunday'),
+('Cơ sở Việt Nam', '2026-01-23 14:45:00', '2026-01-23 15:00:00', 'Monday-Sunday');
+
+INSERT INTO holiday_calendar (
+    asset_class_id,
+    holiday_date_start,
+    holiday_des,
+    holiday_date_end
+)
+VALUES
+('vn30f1m', '2026-12-25', 'Christmas', '2026-12-26'),
+('vn100f1m', '2026-11-26', 'Valentine', '2026-12-27'),
+('FPT', '2026-11-26', 'Valentine', '2026-12-27'),
+('VIC', '2026-02-14', 'Valentine', '2026-12-25'),
+('BTCUSDT', '2026-12-25', 'Christmas', '2026-12-26'),
+('Nikkei', '2026-11-26', 'Valentine', '2026-12-27'),
+('SP500', '2026-02-14', 'Valentine', '2026-12-25'),
+('DowJone', '2026-12-25', 'Christmas', '2026-12-26'),
+('Kospi', '2026-02-14', 'Valentine', '2026-12-25'),
+('FPT', '2026-02-03', 'Testing', '2026-02-04');

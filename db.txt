@@ -172,3 +172,26 @@ VALUES
 ('gold','Forex');
 
 
+//@version=5
+indicator("Missing Days HSI", overlay=true, max_bars_back=5000)
+
+if not timeframe.isdaily
+    runtime.error("Vui lòng dùng khung 1D")
+
+oneDay = 24 * 60 * 60 * 1000
+timeDiff = time - time[1]
+
+yearCondition = year(time) == 2025
+
+
+if bar_index > 0 and timeDiff > oneDay and yearCondition
+    daysMissing = math.floor(timeDiff / oneDay) - 1
+    
+    label.new(bar_index, high,
+         text="Missing: " + str.tostring(daysMissing),
+         style=label.style_label_down,
+         color=color.orange,
+         textcolor=color.white)
+
+
+

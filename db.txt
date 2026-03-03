@@ -1,272 +1,255 @@
 CREATE TABLE asset (
-    asset_id SERIAL PRIMARY KEY,
-    asset_class_id VARCHAR(255) UNIQUE NOT NULL,
-    asset_name VARCHAR(255)
-);
-
-CREATE TABLE holiday_calendar (
-    holiday_id SERIAL PRIMARY KEY,
-    asset_class_id VARCHAR REFERENCES asset(asset_class_id), 
-    holiday_date_start DATE NOT NULL,
-    holiday_des VARCHAR(255),
-    holiday_date_end DATE NOT NULL
-);
-
-CREATE TABLE asset_time(
-    asset_id serial PRIMARY KEY,
-    asset_name VARCHAR(255),
+    asset_id SERIAL,
+    asset_class_id VARCHAR(255) NOT NULL,
+    asset_type VARCHAR(255) NOT NULL,
     session_time_start TIMESTAMP,
     session_time_end TIMESTAMP,
     days_of_month VARCHAR(255)
-);
+) partition by list (asset_type);
+
+create table crypto partition of asset for values 
+in ('Crypto');
+create table indices partition of asset for values 
+in ('Indices');
+create table vietnam partition of asset for values 
+in ('Vietnam');
+create table forex partition OF asset for values 
+in ('Forex');
+create table asset_default partition of asset default;
 
 
 INSERT INTO asset (
     asset_class_id,
-    asset_name
-)
-VALUES
-('vn30f1m', 'Phái sinh Việt Nam'),
-('vn100f1m', 'Phái sinh Việt Nam'),
-('FPT', 'Cơ sở Việt Nam'),
-('VIC', 'Cơ sở Việt Nam'),
-('orderbook_vn30f1m','Phái sinh Việt Nam'),
-('trade_vn30f1m','Phái sinh Việt Nam'),
-('vn30','Index Việt Nam'),
-('vn100','Index Việt Nam'),
-('ty_gia','Tỷ giá Việt Nam'),
-('lai_suat_qua_dem','Lãi xuất Việt Nam'),
-('weight_vn30','Weight Việt Nam'),
-('etf','ETF Việt Nam'),
-('foreign','Foregin Việt Nam'),
-('ADAUSDT','Crypto'),
-('ATOMUSDT', 'Crypto'),
-('AVAXUSDT', 'Crypto'),
-('BCHUSDT', 'Crypto'),
-('BNBUSDT', 'Crypto'),
-('BTCUSDT', 'Crypto'),
-('DOGEUSDT', 'Crypto'),
-('DOTUSDT', 'Crypto'),
-('ETCUSDT', 'Crypto'),
-('ETHUSDT', 'Crypto'),
-('FILUSDT', 'Crypto'),
-('HBARUSDT', 'Crypto'),
-('LINKUSDT', 'Crypto'),
-('LTCUSDT', 'Crypto'),
-('SOLUSDT', 'Crypto'),
-('TRXUSDT', 'Crypto'),
-('UNIUSDT', 'Crypto'),
-('VETUSDT', 'Crypto'),
-('XLMUSDT', 'Crypto'),
-('XMRUSDT', 'Crypto'),
-('XRPUSDT', 'Crypto'),
-('funding_rate', 'Crypto Metric'),
-('btc_dominance', 'Crypto Metric'),
-('orderbook', 'Crypto Metric'),
-('trade', 'Crypto Metric'),
-('market_cap', 'Crypto Metric'),
-('nikkei', 'Indices'),
-('sp500', 'Indices'),
-('kospi', 'Indices'),
-('oxy', 'Indices'),
-('csi_300', 'Indices'),
-('vxx', 'Indices'),
-('nasdaq', 'Indices2'),
-('dji', 'Indices'),
-('dxy', 'Indices'),
-('usdvnd', 'Indices'),
-('hang_seng', 'Indices2'),
-('gold','Forex');
-
-
-
-
-INSERT INTO asset_time (
-    asset_name,
+    asset_type,
     session_time_start,
     session_time_end,
     days_of_month
 )
 VALUES
-('Crypto', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Indices', '2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Indices', '2026-01-23 12:30:00', '2026-01-23 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Indices2', '2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
-('Indices2', '2026-01-23 12:30:00', '2026-01-23 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
-('Phái sinh Việt Nam', '2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Cơ sở Việt Nam', '2026-01-23 09:15:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Phái sinh Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Cơ sở Việt Nam', '2026-01-23 13:00:00', '2026-01-23 14:45:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Cơ sở Việt Nam', '2026-01-23 14:45:00', '2026-01-23 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Index Việt Nam','2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Index Việt Nam','2026-01-23 13:00:00', '2026-01-23 14:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Tỷ giá Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Lãi xuất Việt Nam','2026-01-23 16:00:00', '2026-01-23 17:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Weight Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('ETF Việt Nam','2026-01-23 09:00:00', '2026-01-23 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('ETF Việt Nam','2026-01-23 13:00:00', '2026-01-23 14:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Foregin Việt Nam','2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
-('Crypto Metric', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
-('Forex', '2026-01-01 00:00:00', '2026-12-31 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday');
+-- Gold
+('XAUUSDT','Forex', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday'), 
+
+-- Vietnam
+('vn30f1m','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vn30f1m','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('FPT','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('FPT','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('vn100f1m','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('vn100f1m','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('vn30','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vn30','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vn100','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vn100','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('ty_gia','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('ty_gia','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('lai_suat_qua_dem','Vietnam', '2026-01-01 16:00:00','2026-01-02 17:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('weight_vn30','Vietnam', '2026-01-01 09:15:00','2026-01-02 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('etf','Vietnam', '2026-01-02 09:15:00','2026-02-02 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('etf','Vietnam', '2026-01-02 13:00:00','2026-02-02 14:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('foreign','Vietnam', '2026-01-01 09:15:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('foreign','Vietnam', '2026-01-01 13:00:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+
+-- Crypto
+('ADAUSDT','Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('ATOMUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('AVAXUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('BCHUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('BNBUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('BTCUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('DOGEUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('DOTUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('ETCUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('ETHUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('FILUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('HBARUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('LINKUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('LTCUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('SOLUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('TRXUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('UNIUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('VETUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('XLMUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('XMRUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('XRPUSDT', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('funding_rate', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('btc_dominance', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('orderbook', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('trade', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+('market_cap', 'Crypto', '2026-01-01 00:00:00','2026-01-01 23:59:59', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'),
+
+-- Indices
+('nikkei','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('nikkei','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('nasdaq','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
+('nasdaq','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
+('hangseng' ,'Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
+('hangseng' ,'Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday,Sunday'),
+('dji','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('dji','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('dxy','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('dxy','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('usdvnd','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('usdvnd','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('oxy','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('oxy','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('csi_300','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('csi_300','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vxx','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('vxx','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('sp500','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('sp500','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('kospi','Indices', '2026-01-01 09:00:00','2026-01-01 11:30:00', 'Monday,Tuesday,Wednesday,Thursday,Friday'),
+('kospi','Indices', '2026-01-01 12:30:00','2026-01-01 15:00:00', 'Monday,Tuesday,Wednesday,Thursday,Friday');
 
 
-INSERT INTO holiday_calendar (
+
+CREATE TABLE asset_holiday (
+    holiday_id SERIAL,
+    asset_class_id VARCHAR(255) NOT NULL, 
+    holiday_date_start TIMESTAMP NOT NULL,
+    holiday_des VARCHAR(255),
+    holiday_date_end TIMESTAMP NOT NULL
+) partition by list (holiday_des);
+
+create table good_friday partition of asset_holiday for values
+in ('Good Friday');
+create table tet partition of asset_holiday for values
+in ('Tet');
+create table christmas partition of asset_holiday for values
+in ('Christmas');
+create table new_year partition of asset_holiday for values
+in ('New Year');
+create table national_day partition of asset_holiday for values
+in ('National Day');
+create table holiday_default partition of asset_holiday default;
+
+
+INSERT INTO asset_holiday (
     asset_class_id,
     holiday_date_start,
-    holiday_des,
-    holiday_date_end
-)
-VALUES
-('kospi', '2026-12-25', 'Christmas', '2026-12-25'),
-('kospi', '2026-01-01', 'New Year', '2026-01-01'),
-('kospi', '2026-06-06', 'Memorial Day', '2026-06-06'),
+    holiday_date_end,
+    holiday_des
+) VALUES 
+-- Vietnam
+('vn30f1m', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('vn30f1m', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('vn30f1m', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('vn30f1m', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('sp500',        '2026-01-01', 'New Year', '2026-01-01'),
-('sp500',        '2026-12-25', 'Christmas', '2026-12-25'),
-('sp500',  '2026-04-03', 'Good Friday', '2026-04-03'),
-('sp500',  '2025-04-18', 'Good Friday', '2025-04-18'),
+('vn100f1m', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('vn100f1m', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('vn100f1m', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('vn100f1m', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('nikkei', '2026-01-01', 'New Year', '2026-01-01'),
-('nikkei', '2026-12-25', 'Christmas', '2026-12-25'),
-('nikkei', '2026-04-03', 'Good Friday', '2026-04-03'),
-('nikkei', '2025-04-18', 'Good Friday', '2025-04-18'),
+('FPT', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('FPT', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('FPT', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('FPT', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('VIC',     '2025-01-28', 'Tet', '2025-02-03'),
-('VIC',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('VIC',     '2026-01-28', 'Tet', '2026-02-03'),
-('VIC',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('VIC',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('VIC',     '2026-01-01', 'New Year', '2026-01-01'),
+('VIC', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('VIC', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('VIC', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('VIC', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('FPT',     '2025-01-28', 'Tet', '2025-02-03'),
-('FPT',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('FPT',     '2026-01-28', 'Tet', '2026-02-03'),
-('FPT',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('FPT',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('FPT',     '2026-01-01', 'New Year', '2026-01-01'),
+('vn30', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('vn30', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('vn30', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('vn30', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('vn100f1m',     '2025-01-28', 'Tet', '2025-02-03'),
-('vn100f1m',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('vn100f1m',     '2026-01-28', 'Tet', '2026-02-03'),
-('vn100f1m',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('vn100f1m',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('vn100f1m',     '2026-01-01', 'New Year', '2026-01-01'),
+('vn100', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('vn100', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('vn100', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('vn100', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('vn30f1m',     '2025-01-28', 'Tet', '2025-02-03'),
-('vn30f1m',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('vn30f1m',     '2026-01-28', 'Tet', '2026-02-03'),
-('vn30f1m',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('vn30f1m',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('vn30f1m',     '2026-01-01', 'New Year', '2026-01-01'),
+('orderbook_vn30f1m', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('orderbook_vn30f1m', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('orderbook_vn30f1m', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('orderbook_vn30f1m', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('orderbook_vn30f1m',     '2025-01-28', 'Tet', '2025-02-03'),
-('orderbook_vn30f1m',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('orderbook_vn30f1m',     '2026-01-28', 'Tet', '2026-02-03'),
-('orderbook_vn30f1m',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('orderbook_vn30f1m',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('orderbook_vn30f1m',     '2026-01-01', 'New Year', '2026-01-01'),
+('trade_vn30f1m', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('trade_vn30f1m', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('trade_vn30f1m', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('trade_vn30f1m', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('trade_vn30f1m',     '2025-01-28', 'Tet', '2025-02-03'),
-('trade_vn30f1m',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('trade_vn30f1m',     '2026-01-28', 'Tet', '2026-02-03'),
-('trade_vn30f1m',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('trade_vn30f1m',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('trade_vn30f1m',     '2026-01-01', 'New Year', '2026-01-01'),
+('ty_gia', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('ty_gia', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('ty_gia', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('ty_gia', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('vn100',     '2025-01-28', 'Tet', '2025-02-03'),
-('vn100',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('vn100',     '2026-01-28', 'Tet', '2026-02-03'),
-('vn100',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('vn100',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('vn100',     '2026-01-01', 'New Year', '2026-01-01'),
+('lai_suat_qua_dem', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('lai_suat_qua_dem', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('lai_suat_qua_dem', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('lai_suat_qua_dem', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('vn30',     '2025-01-28', 'Tet', '2025-02-03'),
-('vn30',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('vn30',     '2026-01-28', 'Tet', '2026-02-03'),
-('vn30',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('vn30',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('vn30',     '2026-01-01', 'New Year', '2026-01-01'),
+('weight_vn30', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('weight_vn30', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('weight_vn30', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('weight_vn30', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('lai_suat_qua_dem',     '2025-01-28', 'Tet', '2025-02-03'),
-('lai_suat_qua_dem',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('lai_suat_qua_dem',     '2026-01-28', 'Tet', '2026-02-03'),
-('lai_suat_qua_dem',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('lai_suat_qua_dem',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('lai_suat_qua_dem',     '2026-01-01', 'New Year', '2026-01-01'),
+('etf', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('etf', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('etf', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('etf', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('ty_gia',     '2025-01-28', 'Tet', '2025-02-03'),
-('ty_gia',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('ty_gia',     '2026-01-28', 'Tet', '2026-02-03'),
-('ty_gia',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('ty_gia',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('ty_gia',     '2026-01-01', 'New Year', '2026-01-01'),
+('foreign', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('foreign', '2026-01-23 00:00:00', '2026-01-23 23:59:59', 'Tet'),
+('foreign', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('foreign', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('weight_vn30',     '2025-01-28', 'Tet', '2025-02-03'),
-('weight_vn30',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('weight_vn30',     '2026-01-28', 'Tet', '2026-02-03'),
-('weight_vn30',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('weight_vn30',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('weight_vn30',     '2026-01-01', 'New Year', '2026-01-01'),
+-- Indices
+('nikkei', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('nikkei', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('nikkei', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('etf',            '2026-12-25', 'Christmas', '2026-12-25'),
-('etf',           '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('etf',     '2025-04-18', 'Good Friday', '2025-04-18'),
-('etf',     '2026-04-03', 'Good Friday', '2026-04-03'),
-('etf',     '2026-01-01', 'New Year', '2026-01-01'),
+('sp500', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('sp500', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('sp500', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
 
-('foreign',           '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('foreign',            '2026-01-01', 'New Year', '2026-01-01'),
-('foreign',           '2025-01-27', 'Tet', '2025-02-03'),
-('foreign',            '2025-04-30', 'Quốc Tế Lao Động', '2025-05-05'),
-('foreign',           '2026-01-27', 'Tet', '2026-02-03'),
-('foreign',            '2026-04-30', 'Quốc Tế Lao Động', '2026-05-05'),
+('kospi', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('kospi', '2026-06-25 00:00:00', '2026-06-25 23:59:59', 'Memorial Day'),
+('kospi', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('kospi', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('oxy', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('oxy', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('oxy', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('oxy', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('csi_300', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('csi_300', '2026-01-28 00:00:00', '2026-02-04 23:59:59', 'Tet'),
+('csi_300', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('csi_300', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('vxx', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('vxx', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('vxx', '2026-09-02 00:00:00', '2026-09-02 23:59:59', 'National Day'),
+('vxx', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('nasdaq', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('nasdaq', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('nasdaq', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('hang_seng', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('hang_seng', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('hang_seng', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('dji', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('dji', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('dji', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('dxy', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('dxy', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('dxy', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+('usdvnd', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('usdvnd', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('usdvnd', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas'),
+
+--Forex
+('XAUUSDT', '2026-01-01 00:00:00', '2026-01-01 23:59:59', 'New Year'),
+('XAUUSDT', '2026-04-03 00:00:00', '2026-04-03 23:59:59', 'Good Friday'),
+('XAUUSDT', '2026-12-25 00:00:00', '2026-12-25 23:59:59', 'Christmas');
 
 
-('oxy',        '2026-01-01', 'New Year', '2026-01-01'),
-('oxy',        '2026-12-25', 'Christmas', '2026-12-25'),
-('oxy',  '2026-04-03', 'Good Friday', '2026-04-03'),
-('oxy',  '2025-04-18', 'Good Friday', '2025-04-18'),
-('oxy',     '2026-09-01', 'Quốc Khánh', '2026-09-01'),
-
-('csi_300',    '2026-01-01', 'New Year', '2026-01-01'),
-('csi_300',     '2026-12-25', 'Christmas', '2026-12-25'),
-('csi_300',      '2026-05-01', 'Quốc Tế Lao Động', '2026-05-05'),
-('csi_300',      '2026-01-28', 'Tet', '2026-02-04'),
-('csi_300',      '2025-05-01', 'Quốc Tế Lao Động', '2025-05-05'),
-('csi_300',      '2025-01-28', 'Tet', '2025-02-04'),
-
-('vxx',       '2026-12-25', 'Christmas', '2026-12-25'),
-('vxx',     '2026-01-01', 'New Year', '2026-01-01'),
-('vxx',     '2025-04-18', 'Good Friday', '2025-04-18'),
-('vxx',     '2026-04-03', 'Good Friday', '2026-04-03'),
-
-('nasdaq',     '2025-04-18', 'Good Friday', '2025-04-18'),
-('nasdaq',     '2026-04-03', 'Good Friday', '2026-04-03'),
-
-('dji',        '2026-12-25', 'Christmas', '2026-12-25'),
-('dji',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('dji',     '2026-01-01', 'New Year', '2026-01-01'),
-('dji', '2026-04-03', 'Good Friday', '2026-04-03'),
-('dji', '2025-04-18', 'Good Friday', '2025-04-18'),
-('dji', '2026-07-04', 'Independence Day', '2026-07-04'),
-
-('dxy',     '2026-01-01', 'New Year', '2026-01-01'),
-('dxy',        '2026-12-25', 'Christmas', '2026-12-25'),
-
-('usdvnd',     '2025-01-28', 'Tet', '2025-02-03'),
-('usdvnd',     '2025-04-30', 'Quốc Tế Lao Động', '2025-05-04'),
-('usdvnd',     '2026-01-28', 'Tet', '2026-02-03'),
-('usdvnd',     '2026-04-30', 'Quốc Tế Lao Động', '2026-05-04'),
-('usdvnd',     '2026-09-02', 'Quốc Khánh', '2026-09-02'),
-('usdvnd',     '2026-12-25', 'Christmas', '2026-12-25'),
-('usdvnd',     '2026-01-01', 'New Year', '2026-01-01'),
-
-('hang_seng',  '2026-04-03', 'Good Friday', '2026-04-03'),
-('hang_seng',  '2025-04-18', 'Good Friday', '2025-04-18'),
-
-('gold',  '2025-04-18', 'Good Friday', '2025-04-18'),
-('gold',  '2026-04-03', 'Good Friday', '2026-04-03'),
-('gold',       '2026-01-01', 'New Year', '2026-01-01'),
-('gold',       '2026-12-25', 'Christmas', '2026-12-25');
 
 
